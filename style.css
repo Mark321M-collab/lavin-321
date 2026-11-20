@@ -1,0 +1,569 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #030107;
+    overflow: hidden;
+    font-family: Georgia, serif;
+    color: white;
+}
+
+.universe {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(ellipse at 50% 60%, rgba(105, 0, 30, 0.22), transparent 55%),
+        radial-gradient(ellipse at 20% 20%, rgba(75, 0, 100, 0.13), transparent 45%),
+        #030107;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.universe::before {
+    content: "";
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    left: -25%;
+    top: -25%;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse at 25% 35%, rgba(160, 0, 35, 0.38), transparent 30%),
+        radial-gradient(ellipse at 75% 60%, rgba(105, 0, 45, 0.35), transparent 35%),
+        radial-gradient(ellipse at 50% 15%, rgba(180, 15, 45, 0.18), transparent 30%),
+        radial-gradient(ellipse at 40% 80%, rgba(100, 0, 25, 0.25), transparent 35%);
+    filter: blur(45px);
+    animation: nebulaDrift 18s ease-in-out infinite alternate;
+}
+
+@keyframes nebulaDrift {
+    0% { transform: translate(-3%, -2%) scale(1); }
+    50% { transform: translate(3%, 2%) scale(1.08); }
+    100% { transform: translate(-2%, 3%) scale(1.03); }
+}
+
+/* STARS */
+
+#stars {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* INTRO */
+
+.intro {
+    position: absolute;
+    top: 12%;
+    text-align: center;
+    z-index: 2;
+}
+
+.small-text {
+    color: #d7a1b2;
+    letter-spacing: 4px;
+    font-size: 12px;
+}
+
+.intro h1 {
+    font-size: 42px;
+    color: #ff526f;
+    margin: 12px 0;
+    text-shadow: 0 0 20px #a90038;
+}
+
+.instruction {
+    color: #aaa0b7;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+/* ENVELOPE */
+
+.envelope-container {
+    position: relative;
+    z-index: 3;
+    cursor: pointer;
+    perspective: 1000px;
+}
+
+.envelope {
+    position: relative;
+    width: 260px;
+    height: 175px;
+    filter: drop-shadow(0 0 25px rgba(255, 0, 65, 0.25));
+}
+
+.envelope-back {
+    position: absolute;
+    inset: 0;
+    background: #510c27;
+    border: 1px solid #a52d51;
+}
+
+.envelope-front {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(145deg, #8c173e, #3b071e);
+    clip-path: polygon(0 0, 50% 58%, 100% 0, 100% 100%, 0 100%);
+    z-index: 3;
+}
+
+.envelope-flap {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #c02b56, #720d34);
+    clip-path: polygon(0 0, 100% 0, 50% 65%);
+    transform-origin: top;
+    transition: transform 0.8s ease;
+    z-index: 4;
+}
+
+.seal {
+    position: absolute;
+    top: 67px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #d52b51;
+    display: grid;
+    place-items: center;
+    color: white;
+    box-shadow: 0 0 18px #ff174e;
+    z-index: 5;
+}
+
+.envelope-container.open .envelope-flap {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+.envelope-container.open .seal {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.envelope-container.open .envelope {
+    transform: translateY(15px);
+    transition: transform 0.8s ease;
+}
+
+.letter {
+    position: absolute;
+    width: 90%;
+    height: 80%;
+    left: 5%;
+    bottom: 5%;
+    background: #ffe6eb;
+    z-index: 2;
+    transition: transform 1s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #9c1742;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.envelope-container.open .letter {
+    transform: translateY(-110px);
+}
+
+.click-text {
+    position: absolute;
+    bottom: 15%;
+    color: #e68b9e;
+    font-size: 11px;
+    letter-spacing: 5px;
+    animation: pulse 2s infinite;
+    z-index: 3;
+}
+
+@keyframes pulse {
+    50% { opacity: 0.4; }
+}
+
+/* LOVE HEART WORDS */
+
+#love-particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 20;
+    overflow: hidden;
+    transition: opacity 1.5s ease;
+}
+
+.love-word {
+    position: fixed;
+    color: #ff153d;
+    font-size: 7px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    text-shadow:
+        0 0 4px #ff003c,
+        0 0 8px #ff003c,
+        0 0 12px rgba(255, 0, 60, 0.8);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* HEART-TIP SPIRAL */
+
+.spiral-container {
+    position: fixed;
+    width: 220px;
+    height: 220px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 50;
+    display: none;
+    opacity: 1;
+    transition: opacity 1.5s ease;
+}
+
+.spiral-word {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    color: #ff3158;
+    font-size: 10px;
+    font-weight: bold;
+    white-space: nowrap;
+    text-shadow: 0 0 6px #ff1748, 0 0 13px #ff1748;
+    animation: spiralFlow 3s linear infinite;
+}
+
+@keyframes spiralFlow {
+    0% {
+        transform: rotate(var(--angle)) translateX(5px)
+            rotate(calc(-1 * var(--angle)));
+        opacity: 0;
+    }
+    15% { opacity: 1; }
+    75% { opacity: 1; }
+    100% {
+        transform: rotate(calc(var(--angle) + 360deg))
+            translateX(105px)
+            rotate(calc(-1 * (var(--angle) + 360deg)));
+        opacity: 0;
+    }
+}
+
+/* WAIT MESSAGE */
+
+.wait-message {
+    display: none;
+    opacity: 0;
+    position: fixed;
+    inset: 0;
+    z-index: 55;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.75);
+    transition: opacity 1s ease;
+}
+
+.wait-message h1 {
+    color: #ff3158;
+    font-size: clamp(30px, 6vw, 55px);
+    text-shadow: 0 0 12px #ff1748, 0 0 30px #ff1748;
+    letter-spacing: 4px;
+}
+
+.wait-message p {
+    color: white;
+    font-size: 15px;
+    letter-spacing: 3px;
+    margin-top: 15px;
+}
+
+/* PROPOSAL */
+
+.proposal-screen {
+    display: none;
+    opacity: 0;
+    position: fixed;
+    inset: 0;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    gap: 22px;
+    z-index: 60;
+    transition: opacity 1.5s ease;
+}
+
+.babe-title {
+    font-size: clamp(48px, 9vw, 85px);
+    color: #ff3158;
+    text-shadow: 0 0 15px #ff1748, 0 0 35px #a90038;
+}
+
+.proposal-screen h2 {
+    font-size: clamp(20px, 4vw, 32px);
+    color: #ffe1e8;
+    text-shadow: 0 0 12px rgba(255, 30, 80, 0.5);
+}
+
+.proposal-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    margin-top: 15px;
+}
+
+.proposal-buttons button {
+    padding: 13px 30px;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#yes-button {
+    background: #ff3158;
+    color: white;
+    box-shadow: 0 0 20px rgba(255, 30, 80, 0.5);
+}
+
+#no-button {
+    background: #29202a;
+    color: white;
+}
+
+/* =================================
+   ALIEN ABDUCTION ENDING
+================================= */
+
+.ending-screen {
+    position: fixed;
+    inset: 0;
+    display: none;
+    opacity: 0;
+    overflow: hidden;
+    z-index: 80;
+    background:
+        radial-gradient(ellipse at 50% 50%, rgba(45, 0, 75, 0.35), transparent 65%),
+        #030107;
+    transition: opacity 1.5s ease;
+}
+
+/* Space stars following the teenagers */
+
+.ending-star {
+    position: absolute;
+    color: white;
+    font-size: 15px;
+    text-shadow: 0 0 10px #fff, 0 0 20px #9c7cff;
+    animation: starFollow 2s ease-in-out infinite alternate;
+}
+
+@keyframes starFollow {
+    from {
+        transform: translate(0, 0) scale(0.7);
+        opacity: 0.4;
+    }
+    to {
+        transform: translate(25px, -35px) scale(1.5);
+        opacity: 1;
+    }
+}
+
+/* Teenagers */
+
+.teenager {
+    position: absolute;
+    bottom: 25%;
+    font-size: clamp(55px, 10vw, 95px);
+    filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.4));
+    animation: teenagerRun 0.55s ease-in-out infinite alternate;
+}
+
+.teen-boy {
+    left: 32%;
+}
+
+.teen-girl {
+    left: 52%;
+    animation-delay: 0.2s;
+}
+
+@keyframes teenagerRun {
+    from {
+        transform: translateY(0) rotate(-8deg);
+    }
+    to {
+        transform: translateY(-35px) rotate(8deg);
+    }
+}
+
+/* Aliens */
+
+.alien {
+    position: absolute;
+    top: 20%;
+    font-size: clamp(45px, 8vw, 75px);
+    filter: drop-shadow(0 0 18px #58ff9c);
+    animation: alienFloat 2s ease-in-out infinite alternate;
+}
+
+.alien-one {
+    left: 18%;
+}
+
+.alien-two {
+    right: 18%;
+    animation-delay: 0.5s;
+}
+
+@keyframes alienFloat {
+    from { transform: translateY(0) rotate(-8deg); }
+    to { transform: translateY(-20px) rotate(8deg); }
+}
+
+/* UFO */
+
+.ufo {
+    position: absolute;
+    top: -35%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(90px, 17vw, 160px);
+    filter: drop-shadow(0 0 25px #8d7bff);
+}
+
+.ufo.arrive {
+    animation: ufoArrive 3s ease forwards;
+}
+
+@keyframes ufoArrive {
+    from { top: -35%; }
+    to { top: 8%; }
+}
+
+/* UFO tractor beam */
+
+.ufo-beam {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 100px solid transparent;
+    border-right: 100px solid transparent;
+    border-top: 0 solid rgba(129, 255, 183, 0.2);
+    filter: drop-shadow(0 0 18px #78ffb1);
+    opacity: 0;
+}
+
+.ufo-beam.active {
+    animation: beamCapture 3s ease forwards;
+}
+
+@keyframes beamCapture {
+    0% {
+        opacity: 0;
+        border-top-width: 0;
+    }
+    30% {
+        opacity: 0.7;
+        border-top-width: 350px;
+    }
+    100% {
+        opacity: 0.9;
+        border-top-width: 500px;
+    }
+}
+
+/* Teenagers being taken away */
+
+.teenager.abducted {
+    animation: abduct 3s ease-in forwards;
+}
+
+@keyframes abduct {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    70% {
+        transform: translateY(-260px) scale(0.65);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-500px) scale(0.1);
+        opacity: 0;
+    }
+}
+
+/* UFO disappears */
+
+.ufo.depart {
+    animation: ufoDepart 3s ease-in forwards;
+}
+
+@keyframes ufoDepart {
+    from {
+        top: 8%;
+        transform: translateX(-50%) scale(1);
+    }
+    to {
+        top: -50%;
+        transform: translateX(-50%) scale(0.2);
+        opacity: 0;
+    }
+}
+
+/* Final envelope message */
+
+.ending-message {
+    position: absolute;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+.ending-message h1 {
+    color: #ff5579;
+    font-size: clamp(25px, 6vw, 48px);
+    text-shadow: 0 0 15px #ff1748, 0 0 35px #a90038;
+}
+
+.ending-message p {
+    color: #ffe1e8;
+    font-size: 19px;
+    margin-top: 15px;
+    letter-spacing: 3px;
+}
